@@ -1668,7 +1668,7 @@ async function handleApi(request, response, requestPath) {
     const pGold = Math.min(100000000, Math.max(0, Number(body.gold || body.coins || 0)));
     const pKills = Math.min(100000, Math.max(0, Number(body.kills || 0)));
     const pTime = Math.min(86400, Math.max(0, Number(body.timeAlive || body.timePlayed || 0)));
-    recordDeathScore(pName, pScore, pGold, pKills, pTime, authUser, false);
+    recordDeathScore(pName, pScore, pGold, pKills, pTime, authUser, Boolean(authUser));
     sendJson(response, 200, { ok: true });
     return true;
   }
