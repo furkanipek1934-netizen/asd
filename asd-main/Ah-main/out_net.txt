@@ -1,0 +1,34 @@
+play.html socket connection calls: [
+  'io()',
+  'io()',
+  'io({\n' +
+    "    path: '/api/socket.io',\n" +
+    "    transports: ['websocket', 'polling'],\n" +
+    '    upgrade: true,\n' +
+    '    rememberUpgrade: true,\n' +
+    '    reconnection: true,\n' +
+    '    reconnectionAttempts: Infinity,\n' +
+    '    reconnectionDelay: 400,\n' +
+    '    reconnectionDelayMax: 1800,\n' +
+    '    timeout: 4500,\n' +
+    '    randomizationFactor: 0.25,\n' +
+    '    forceNew: false,\n' +
+    '  })'
+]
+Client state emit lines: [
+  {
+    line: 19046,
+    text: "if (player.weapon >= 3 || dwep) _socket.emit('state', _statePayload);"
+  },
+  {
+    line: 19047,
+    text: "else _socket.volatile.emit('state', _statePayload);"
+  },
+  { line: 19056, text: "_socket.emit('state', {" }
+]
+Interp lines: [
+  {
+    line: 6023,
+    text: "? new NetworkPhysics.SmoothReconciler({ mode: 'error_decay', decayRate: 22.0, lerpFactor: 0.15, snapThreshold: 650 })"
+  }
+]
