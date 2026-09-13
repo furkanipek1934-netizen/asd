@@ -2286,7 +2286,8 @@ function getRoomMembers(roomId) {
 function validateCombatState(attacker, target, { allowTrapHit = false, rangeLimit = 160, damage = 0, requireAlive = true, validWeapon = null } = {}) {
   if (!attacker || !target) return false;
   if (requireAlive && ((attacker.hp ?? 0) <= 0 || (target.hp ?? 0) <= 0)) return false;
-  if ((attacker.clanId && attacker.clanId === target.clanId) || (attacker.team && target.team && attacker.team === target.team)) return false;
+  const targetIsBot = Boolean(target.isBot);
+  if (!targetIsBot && ((attacker.clanId && attacker.clanId === target.clanId) || (attacker.team && target.team && attacker.team === target.team))) return false;
   if (!pvpAllowed()) return false;
   if (!allowTrapHit && target.trappedBy) return false;
   if (validWeapon && Number(attacker.weapon ?? 1) !== Number(validWeapon)) return false;
@@ -3643,8 +3644,15 @@ setInterval(() => {
         if (tdx * tdx + tdy * tdy < 45 * 45) {
           mob.trappedBy = b.id;
           mob.trappedX = b.x; mob.trappedY = b.y;
-          mob.trappedUntil = now + 4000;
-          io.emit('mob_trapped', { mobId: mob.id, buildingId: b.id });
+          mob.trappedUntil = Number.POSITIVE_INFINITY;
+          io.emit('mob_trapped', {
+            mobId: mob.id,
+            buildingId: b.id,
+            x: mob.trappedX,
+            y: mob.trappedY,
+            frozenAngle: mob.angle,
+            ts: now
+          });
           break;
         }
       }
@@ -4135,7 +4143,7 @@ setInterval(() => {
             const trapTriggerR = (b.radius || 52) + 20;
             if (tdx * tdx + tdy * tdy <= trapTriggerR * trapTriggerR) {
               bot.trappedBy = b.id;
-              bot.trappedUntil = now + 4000;
+              bot.trappedUntil = Number.POSITIVE_INFINITY;
               bot.trappedX = b.x;
               bot.trappedY = b.y;
               bot.x = b.x; bot.y = b.y;
@@ -5178,7 +5186,7 @@ io.on('connection', (socket) => {
     if (dx * dx + dy * dy > triggerRadius * triggerRadius) return;
     if (b && (b.hp ?? 100) > 0) {
       mob.trappedBy = b.id;
-      mob.trappedUntil = Date.now() + 4000;
+      mob.trappedUntil = Number.POSITIVE_INFINITY;
       mob.trappedX = mob.x;
       mob.trappedY = mob.y;
       mob.vx = 0;

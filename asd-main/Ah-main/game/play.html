@@ -20372,12 +20372,6 @@ function initMultiplayer() {
         if (pDist > 300) {
           if (_reconciler) _reconciler.onServerPacket(player, s.x, s.y);
           else { player.x = s.x; player.y = s.y; }
-        } else if (pDist > 45 && Math.abs(player.vx||0) < 0.2 && Math.abs(player.vy||0) < 0.2) {
-          if (_reconciler) _reconciler.onServerPacket(player, s.x, s.y);
-          else {
-            player.x += (s.x - player.x) * 0.35;
-            player.y += (s.y - player.y) * 0.35;
-          }
         }
       }
     }
@@ -20849,12 +20843,14 @@ function initMultiplayer() {
     const e = enemies.find(en => en._netId === mobId);
     if (!e) return;
     if (e._capturedByTrap) return; // zaten dondurulmuş (kendi tuzağımız tetikledi)
+    const trapX = Number.isFinite(Number(x)) ? Number(x) : e.x;
+    const trapY = Number.isFinite(Number(y)) ? Number(y) : e.y;
     e._capturedByTrap = buildingId;
-    e._capturedTrapX = x; e._capturedTrapY = y;
+    e._capturedTrapX = trapX; e._capturedTrapY = trapY;
     e._frozenAngle = (frozenAngle !== undefined ? frozenAngle : (e.angle || 0));
     e.vx = 0; e.vy = 0;
-    e.x = x; e.y = y;
-    e._targetX = x; e._targetY = y;
+    e.x = trapX; e.y = trapY;
+    e._targetX = trapX; e._targetY = trapY;
     // Buz kristali parçacıkları
     if (_qualityLevel >= 1) {
       for (let _ti = 0; _ti < 6; _ti++) {
