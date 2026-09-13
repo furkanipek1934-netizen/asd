@@ -5267,7 +5267,7 @@
             if (!heading) return;
             if (_currentLbTab === 'kills') heading.textContent = 'OYUNCU KILL';
             else if (_currentLbTab === 'recent') heading.textContent = 'SON OYUN';
-            else heading.innerHTML = '<img class="real-coin-icon" src="asset/gold.png" alt="Altın" title="Altın">';
+            else heading.textContent = 'OYUNCU SKORU';
         }
 
         function escapeLeaderboardText(value) {
@@ -5296,7 +5296,7 @@
                     const rankId = typeof entry.rankId === 'number' ? entry.rankId : 0;
                     const rankTitle = entry.rankName || RANKS[rankId] || 'Tohum';
                     const visualRankId = getVisualRankId(rankId);
-                    const highestGold = Math.max(0, Number(entry.gold || 0));
+                    const highestScore = Math.max(0, Number(entry.score || 0));
                     const profileSlot = document.createElement('span');
                     profileSlot.className = 'leaderboard-profile-slot inline-block';
                     profileSlot.style.width = '26px';
@@ -5322,7 +5322,7 @@
 
                     const value = document.createElement('span');
                     value.className = 'font-io text-[10px] text-[#FFDF73] whitespace-nowrap';
-                    value.innerHTML = `${highestGold.toLocaleString()} <img class="real-coin-icon" src="asset/gold.png" alt="Altın">`;
+                    value.textContent = highestScore.toLocaleString();
 
                     row.appendChild(profileSlot);
                     row.appendChild(player);

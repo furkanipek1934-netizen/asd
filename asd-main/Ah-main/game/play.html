@@ -11016,7 +11016,7 @@ function _submitScore() {
   if (!guestId) { guestId = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('fb_guest_id', guestId); }
   const token = localStorage.getItem('fb_auth_token') || '';
   _scoreSubmitted = true;
-  const timeSec = Math.max(0, Math.floor(globalTime / 60));
+  const timeSec = Math.max(0, Math.floor((Date.now() - _survivalStartTime) / 1000));
   _scoreSubmitPromise = fetch('/api/leaderboard/submit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': 'Bearer ' + token } : {}) },

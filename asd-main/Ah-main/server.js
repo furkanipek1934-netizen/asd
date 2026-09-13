@@ -1240,7 +1240,7 @@ function leaderboard(tab) {
 
   const list = [...allMap.values()];
   if (tab === 'kills') list.sort((a, b) => safeNumber(b.playerKills ?? b.kills ?? 0) - safeNumber(a.playerKills ?? a.kills ?? 0));
-  else list.sort((a, b) => safeNumber(b.gold) - safeNumber(a.gold) || safeNumber(b.score) - safeNumber(a.score) || safeNumber(b.xp) - safeNumber(a.xp));
+  else list.sort((a, b) => safeNumber(b.score) - safeNumber(a.score) || safeNumber(b.gold) - safeNumber(a.gold) || safeNumber(b.xp) - safeNumber(a.xp));
 
   return list.slice(0, 50).map((entry, index) => ({
     ...entry,
